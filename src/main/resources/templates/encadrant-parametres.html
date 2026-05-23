@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres - Encadrant</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/header-footer :: header}"></div>
+
+    <div class="container my-5">
+        <div class="card mb-4">
+            <div class="card-header text-center">
+                <h2 class="mb-0">
+                    <i class="bi bi-gear text-primary"></i> Paramètres
+                </h2>
+            </div>
+        </div>
+
+        <div th:if="${success}" class="alert alert-success" role="alert">
+            <i class="bi bi-check-circle"></i> <span th:text="${success}"></span>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="mb-0">
+                    <i class="bi bi-people text-primary"></i> Nombre maximum de stagiaires
+                </h3>
+            </div>
+            <div class="card-body">
+                <p>Définissez le nombre maximum de stagiaires que vous pouvez encadrer simultanément.</p>
+                <p class="text-muted">
+                    <strong>Nombre actuel :</strong> <span th:text="${encadrant.maxStagiaires}">5</span> stagiaires
+                </p>
+                
+                <form th:action="@{/encadrant/parametres/max-stagiaires}" method="post">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="maxStagiaires" class="form-label">Nouveau nombre maximum</label>
+                            <input type="number" 
+                                   id="maxStagiaires" 
+                                   name="maxStagiaires" 
+                                   class="form-control" 
+                                   min="1" 
+                                   max="20" 
+                                   th:value="${encadrant.maxStagiaires}"
+                                   required>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-check-circle"></i> Enregistrer
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="mb-0">
+                    <i class="bi bi-calendar-x text-warning"></i> Déclarer une période de congé
+                </h3>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/encadrant/parametres/conge}" method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="dateDebut" class="form-label">Date de début</label>
+                            <input type="date" 
+                                   id="dateDebut" 
+                                   name="dateDebut" 
+                                   class="form-control" 
+                                   required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="dateFin" class="form-label">Date de fin</label>
+                            <input type="date" 
+                                   id="dateFin" 
+                                   name="dateFin" 
+                                   class="form-control" 
+                                   required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-warning w-100">
+                        <i class="bi bi-calendar-plus"></i> Déclarer la période
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a th:href="@{/encadrant/dashboard}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Retour au dashboard
+            </a>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/header-footer :: footer}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

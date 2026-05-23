@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Encadrant - OCP</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header-footer :: header}"></div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <div class="hero text-center mb-4">
+            <h1 class="display-4 fw-bold mb-3">Espace Encadrant</h1>
+            <p class="lead">Gérez vos stagiaires et suivez leurs projets</p>
+        </div>
+
+        <!-- Menu Cards -->
+        <div class="grid grid-3">
+            <!-- Voir les stagiaires affectés -->
+            <div class="card">
+                <div class="text-center">
+                    <i class="bi bi-people feature-icon" style="font-size: 3rem; color: #0052cc;"></i>
+                    <h3 class="card-title mb-3">Mes Stagiaires</h3>
+                    <p class="mb-4">Consultez la liste de vos stagiaires affectés</p>
+                    <a th:href="@{/encadrant/stagiaires}" class="btn btn-primary btn-lg btn-block">
+                        <i class="bi bi-list-ul"></i> Voir les stagiaires
+                    </a>
+                </div>
+            </div>
+
+            <!-- Commenter un projet -->
+            <div class="card">
+                <div class="text-center">
+                    <i class="bi bi-chat-left-text feature-icon" style="font-size: 3rem; color: #28a745;"></i>
+                    <h3 class="card-title mb-3">Commenter un projet</h3>
+                    <p class="mb-4">Ajoutez des commentaires sur les projets de stage</p>
+                    <a href="#" class="btn btn-success btn-lg btn-block">
+                        <i class="bi bi-pencil-square"></i> Commenter
+                    </a>
+                </div>
+            </div>
+
+            <!-- Gérer les paramètres -->
+            <div class="card">
+                <div class="text-center">
+                    <i class="bi bi-gear feature-icon" style="font-size: 3rem; color: #6c757d;"></i>
+                    <h3 class="card-title mb-3">Paramètres</h3>
+                    <p class="mb-4">Définir votre nombre maximum de stagiaires</p>
+                    <a th:href="@{/encadrant/parametres}" class="btn btn-outline btn-lg btn-block">
+                        <i class="bi bi-sliders"></i> Configurer
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informations -->
+        <div class="card mt-4">
+            <h4 class="text-primary mb-3"><i class="bi bi-info-circle"></i> Informations</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3">Vos responsabilités</h5>
+                    <ul>
+                        <li>Encadrer et guider vos stagiaires</li>
+                        <li>Suivre l'avancement de leurs projets</li>
+                        <li>Fournir des retours constructifs</li>
+                        <li>Valider les étapes importantes</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="mb-3">Fonctionnalités disponibles</h5>
+                    <ul>
+                        <li>Consultation des profils stagiaires</li>
+                        <li>Suivi des projets en temps réel</li>
+                        <li>Système de commentaires</li>
+                        <li>Gestion de votre capacité d'encadrement</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Retour -->
+        <div class="text-center mt-4">
+            <a th:href="@{/}" class="btn btn-outline">
+                <i class="bi bi-arrow-left"></i> Retour à l'accueil
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/header-footer :: footer}"></div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

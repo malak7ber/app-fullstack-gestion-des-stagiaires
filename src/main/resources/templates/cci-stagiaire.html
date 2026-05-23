@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Stagiaires - CCI</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header-footer :: header}"></div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2 class="card-title mb-0">
+                    <i class="bi bi-people text-primary"></i> Liste des Demandes de Stage
+                </h2>
+                <a th:href="@{/cci}" class="btn btn-outline">
+                    <i class="bi bi-arrow-left"></i> Retour
+                </a>
+            </div>
+            
+            <div class="card-body">
+                <div th:if="${stagiaires == null or #lists.isEmpty(stagiaires)}" class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> Aucune demande de stage pour le moment.
+                </div>
+
+                <div th:if="${stagiaires != null and !#lists.isEmpty(stagiaires)}">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><i class="bi bi-person"></i> Nom</th>
+                                    <th><i class="bi bi-person"></i> Prénom</th>
+                                    <th><i class="bi bi-envelope"></i> Email</th>
+                                    <th><i class="bi bi-building"></i> École</th>
+                                    <th><i class="bi bi-book"></i> Spécialité</th>
+                                    <th class="text-center"><i class="bi bi-gear"></i> Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="s : ${stagiaires}">
+                                    <td th:text="${s.nom}"></td>
+                                    <td th:text="${s.prenom}"></td>
+                                    <td th:text="${s.email}"></td>
+                                    <td th:text="${s.ecole}"></td>
+                                    <td th:text="${s.specialite}"></td>
+                                    <td>
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <form th:action="@{/cci/stagiaires/valider}" method="post" style="display:inline;">
+                                                <input type="hidden" name="id" th:value="${s.id}" />
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    <i class="bi bi-check-circle"></i> Valider
+                                                </button>
+                                            </form>
+                                            <form th:action="@{/cci/stagiaires/rejeter}" method="post" style="display:inline;">
+                                                <input type="hidden" name="id" th:value="${s.id}" />
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="bi bi-x-circle"></i> Rejeter
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/header-footer :: footer}"></div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

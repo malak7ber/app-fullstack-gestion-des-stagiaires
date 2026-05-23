@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - Stagiaire</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/header-footer :: header}"></div>
+
+    <div class="container my-5">
+        <!-- Welcome Card -->
+        <div class="card mb-4 bg-primary text-white">
+            <div class="card-body text-center">
+                <h1 class="display-5 mb-3">
+                    <i class="bi bi-person-circle"></i> Bienvenue, 
+                    <span th:text="${stagiaire.prenom} + ' ' + ${stagiaire.nom}">Stagiaire</span> !
+                </h1>
+                <p class="lead">Gerez votre stage et suivez votre progression</p>
+            </div>
+        </div>
+
+		<!-- Documents et Depot -->
+		<div class="row g-4 mt-4">
+		    <!-- Deposer documents -->
+		    <div class="col-md-6">
+		        <div class="card">
+		            <div class="card-header">
+		                <h3 class="mb-0">
+		                    <i class="bi bi-cloud-upload text-primary"></i> Deposer des documents
+		                </h3>
+		            </div>
+		            <div class="card-body">
+		                <form th:action="@{/stagiaire/deposer-document}" method="post" enctype="multipart/form-data">
+		                    <div class="mb-3">
+		                        <label class="form-label">Type de document</label>
+		                        <select name="typeDocument" class="form-control" required>
+		                            <option value="rapport">Rapport final</option>
+		                            <option value="cahier_charges">Cahier des charges</option>
+		                            <option value="presentation">Presentation</option>
+		                            <option value="autre">Autre document</option>
+		                        </select>
+		                    </div>
+		                    <div class="mb-3">
+		                        <label class="form-label">Fichier</label>
+		                        <input type="file" name="fichier" class="form-control" required>
+		                    </div>
+		                    <button type="submit" class="btn btn-primary w-100">
+		                        <i class="bi bi-upload"></i> Deposer
+		                    </button>
+		                </form>
+		            </div>
+		        </div>
+		    </div>
+
+		    <!-- Mes documents -->
+		    <div class="col-md-6">
+		        <div class="card">
+		            <div class="card-header">
+		                <h3 class="mb-0">
+		                    <i class="bi bi-folder text-success"></i> Mes documents
+		                </h3>
+		            </div>
+		            <div class="card-body">
+		                <!-- Attestation si disponible -->
+		                <div th:if="${stagiaire.attestationDisponible}" class="alert alert-success">
+		                    <i class="bi bi-award"></i> Votre attestation est prete !
+		                    <a th:href="@{/attestation/generer/{id}(id=${stagiaire.id})}" 
+		                       class="btn btn-success btn-sm mt-2 w-100">
+		                        <i class="bi bi-download"></i> Telecharger l'attestation
+		                    </a>
+		                </div>
+		                
+		                <!-- Convocation -->
+		                <a th:href="@{/documents/convocation.pdf}" class="btn btn-outline-primary w-100 mb-2" download>
+		                    <i class="bi bi-file-earmark-pdf"></i> Convocation
+		                </a>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+            <!-- Commentaires -->
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-chat-left-text" style="font-size: 3rem; color: #28a745;"></i>
+                        <h3 class="card-title mt-3">Commentaires</h3>
+                        <p class="text-muted">Consultez les commentaires</p>
+                        <a th:href="@{/stagiaire/commentaires}" class="btn btn-success">
+                            <i class="bi bi-chat-dots"></i> Voir
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Encadrant Information -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3 class="mb-0">
+                    <i class="bi bi-person-badge text-primary"></i> Encadrant assigne
+                </h3>
+            </div>
+            <div class="card-body">
+                <!-- ✅ CORRECTION ICI -->
+                <div th:if="${stagiaire.encadrant != null}">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Nom :</strong> <span th:text="${stagiaire.encadrant.nom}"></span></p>
+                            <p th:if="${stagiaire.encadrant.specialite != null}">
+                                <strong>Specialite :</strong> <span th:text="${stagiaire.encadrant.specialite}"></span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p th:if="${stagiaire.encadrant.email != null}">
+                                <strong>Email :</strong> 
+                                <a th:href="'mailto:' + ${stagiaire.encadrant.email}" th:text="${stagiaire.encadrant.email}"></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${stagiaire.encadrant == null}" class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> Aucun encadrant encore affecte. 
+                    La CCI vous assignera un encadrant prochainement.
+                </div>
+            </div>
+        </div>
+
+        <!-- Informations du stage -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3 class="mb-0">
+                    <i class="bi bi-calendar-event text-primary"></i> Informations du stage
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Ecole :</strong> <span th:text="${stagiaire.ecole}"></span></p>
+                        <p><strong>Specialite :</strong> <span th:text="${stagiaire.specialite}"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p th:if="${stagiaire.dateDebut != null}">
+                            <strong>Date debut :</strong> 
+                            <span th:text="${#temporals.format(stagiaire.dateDebut, 'dd/MM/yyyy')}"></span>
+                        </p>
+                        <p th:if="${stagiaire.dateFin != null}">
+                            <strong>Date fin :</strong> 
+                            <span th:text="${#temporals.format(stagiaire.dateFin, 'dd/MM/yyyy')}"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logout -->
+        <div class="text-center mt-4">
+            <a th:href="@{/}" class="btn btn-outline-danger">
+                <i class="bi bi-box-arrow-right"></i> Se deconnecter
+            </a>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/header-footer :: footer}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

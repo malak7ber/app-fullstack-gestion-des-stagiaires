@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Encadrant - OCP</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/header-footer :: header}"></div>
+
+    <div class="container my-5">
+        <!-- Welcome Card avec nom de l'encadrant -->
+        <div class="card mb-4 bg-primary text-white">
+            <div class="card-body text-center">
+                <h1 class="display-5 mb-3">
+                    <i class="bi bi-person-badge"></i> Bienvenue, 
+                    <span th:text="${encadrant.nom}">Encadrant</span> !
+                </h1>
+                <p class="lead">Espace de gestion de vos stagiaires</p>
+                <p class="mb-0">
+                    <i class="bi bi-people"></i> 
+                    <strong th:text="${nombreStagiaires}">0</strong> / 
+                    <strong th:text="${maxStagiaires}">5</strong> stagiaires
+                </p>
+            </div>
+        </div>
+
+        <!-- Action Cards -->
+        <div class="row g-4">
+            <!-- Mes Stagiaires -->
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people" style="font-size: 3rem; color: #0052cc;"></i>
+                        <h3 class="card-title mt-3">Mes Stagiaires</h3>
+                        <p class="text-muted">Consultez vos stagiaires affectes</p>
+                        <a th:href="@{/encadrant/stagiaires}" class="btn btn-primary">
+                            <i class="bi bi-list-ul"></i> Voir
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Commenter -->
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-chat-left-text" style="font-size: 3rem; color: #28a745;"></i>
+                        <h3 class="card-title mt-3">Commenter</h3>
+                        <p class="text-muted">Ajoutez des commentaires sur les projets</p>
+                        <a th:href="@{/encadrant/commenter}" class="btn btn-success">
+                            <i class="bi bi-pencil-square"></i> Commenter
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parametres -->
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-gear" style="font-size: 3rem; color: #6c757d;"></i>
+                        <h3 class="card-title mt-3">Parametres</h3>
+                        <p class="text-muted">Configurez votre nombre max et conges</p>
+                        <a th:href="@{/encadrant/parametres}" class="btn btn-secondary">
+                            <i class="bi bi-sliders"></i> Configurer
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logout -->
+        <div class="text-center mt-4">
+            <a th:href="@{/encadrant/logout}" class="btn btn-outline-danger">
+                <i class="bi bi-box-arrow-right"></i> Se deconnecter
+            </a>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/header-footer :: footer}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

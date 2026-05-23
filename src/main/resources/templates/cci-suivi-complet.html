@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Suivi Complet - CCI</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/header-footer :: header}"></div>
+
+    <div class="container my-5">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 class="mb-0">
+                    <i class="bi bi-clipboard-data text-primary"></i> Suivi Complet
+                </h2>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <ul class="nav nav-tabs mb-4" id="suiviTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="stagiaires-tab" 
+                        data-bs-toggle="tab" data-bs-target="#stagiaires" 
+                        type="button">
+                    <i class="bi bi-people"></i> Stagiaires
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="encadrants-tab" 
+                        data-bs-toggle="tab" data-bs-target="#encadrants" 
+                        type="button">
+                    <i class="bi bi-person-badge"></i> Encadrants
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="suiviTabContent">
+            <!-- Tab Stagiaires -->
+            <div class="tab-pane fade show active" id="stagiaires" role="tabpanel">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="stagiairesList">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Chargement...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Encadrants -->
+            <div class="tab-pane fade" id="encadrants" role="tabpanel">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="encadrantsList">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Chargement...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a th:href="@{/cci}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Retour
+            </a>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/header-footer :: footer}"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Charger TOUS les stagiaires
+        fetch('/api/stagiaires')
+            .then(r => r.json())
+            .then(data => {
+                console.log('Stagiaires recus:', data); // DEBUG
+                const div = document.getElementById('stagiairesList');
+                
+                if (!data || data.length === 0) {
+                    div.innerHTML = '<div class="alert alert-info">Aucun stagiaire enregistre</div>';
+                    return;
+                }
+                
+                let html = `
+                    <div class="alert alert-info mb-3">
+                        <i class="bi bi-info-circle"></i> 
+                        <strong>${data.length}</strong> stagiaire(s) au total
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Nom Complet</th>
+                                    <th>Ecole</th>
+                                    <th>Specialite</th>
+                                    <th>Encadrant</th>
+                                    <th>Periode</th>
+                                    <th>Statut</th>
+                                    <th>Progression</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                data.forEach(s => {
+                    const encadrant = s.encadrant ? 
+                        s.encadrant.nom : 
+                        '<span class="badge bg-secondary">Non affecte</span>';
+                    
+                    const debut = s.dateDebut ? new Date(s.dateDebut).toLocaleDateString('fr-FR') : 'N/A';
+                    const fin = s.dateFin ? new Date(s.dateFin).toLocaleDateString('fr-FR') : 'N/A';
+                    
+                    let statut = '<span class="badge bg-secondary">En attente validation</span>';
+                    if (s.valide && !s.rapportValide) {
+                        statut = '<span class="badge bg-primary">En cours</span>';
+                    }
+                    if (s.rapportValide && !s.attestationDisponible) {
+                        statut = '<span class="badge bg-warning text-dark">Rapport valide</span>';
+                    }
+                    if (s.attestationDisponible) {
+                        statut = '<span class="badge bg-success">Termine</span>';
+                    }
+                    
+                    let progression = 0;
+                    if (s.valide) progression = 25;
+                    if (s.encadrant) progression = 50;
+                    if (s.rapportValide) progression = 75;
+                    if (s.attestationDisponible) progression = 100;
+                    
+                    let progressColor = 'bg-secondary';
+                    if (progression >= 25) progressColor = 'bg-info';
+                    if (progression >= 50) progressColor = 'bg-primary';
+                    if (progression >= 75) progressColor = 'bg-warning';
+                    if (progression === 100) progressColor = 'bg-success';
+                    
+                    html += `
+                        <tr>
+                            <td><strong>${s.prenom} ${s.nom}</strong></td>
+                            <td>${s.ecole || 'N/A'}</td>
+                            <td>${s.specialite || 'N/A'}</td>
+                            <td>${encadrant}</td>
+                            <td><small>${debut} - ${fin}</small></td>
+                            <td>${statut}</td>
+                            <td>
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar ${progressColor}" 
+                                         role="progressbar" 
+                                         style="width: ${progression}%" 
+                                         aria-valuenow="${progression}" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        ${progression}%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</tbody></table></div>';
+                div.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Erreur chargement stagiaires:', error);
+                document.getElementById('stagiairesList').innerHTML = 
+                    '<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Erreur de chargement</div>';
+            });
+        
+        // Charger TOUS les encadrants
+        fetch('/api/encadrants')
+            .then(r => r.json())
+            .then(data => {
+                console.log('Encadrants recus:', data); // DEBUG
+                const div = document.getElementById('encadrantsList');
+                
+                if (!data || data.length === 0) {
+                    div.innerHTML = '<div class="alert alert-info">Aucun encadrant enregistre</div>';
+                    return;
+                }
+                
+                let html = `
+                    <div class="alert alert-info mb-3">
+                        <i class="bi bi-info-circle"></i> 
+                        <strong>${data.length}</strong> encadrant(s) au total
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Specialite</th>
+                                    <th>Service</th>
+                                    <th>Stagiaires</th>
+                                    <th>Capacite</th>
+                                    <th>Disponibilite</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                data.forEach(e => {
+                    const dispo = e.peutAccepterStagiaire ? 
+                        '<span class="badge bg-success">Disponible</span>' : 
+                        '<span class="badge bg-danger">Complet</span>';
+                    
+                    const taux = e.maxStagiaires > 0 ? 
+                        Math.round((e.nombreStagiaires / e.maxStagiaires) * 100) : 0;
+                    
+                    html += `
+                        <tr>
+                            <td><strong>${e.nom || 'N/A'}</strong></td>
+                            <td>${e.email || 'N/A'}</td>
+                            <td>${e.specialite || 'N/A'}</td>
+                            <td>${e.service || 'N/A'}</td>
+                            <td class="text-center">
+                                <strong style="font-size: 1.2em;">${e.nombreStagiaires}</strong>
+                            </td>
+                            <td>
+                                <div class="progress" style="height: 20px; min-width: 100px;">
+                                    <div class="progress-bar ${taux >= 100 ? 'bg-danger' : 'bg-success'}" 
+                                         style="width: ${taux}%">
+                                        ${e.nombreStagiaires}/${e.maxStagiaires}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>${dispo}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</tbody></table></div>';
+                div.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Erreur chargement encadrants:', error);
+                document.getElementById('encadrantsList').innerHTML = 
+                    '<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Erreur de chargement</div>';
+            });
+    </script>
+</body>
+</html>

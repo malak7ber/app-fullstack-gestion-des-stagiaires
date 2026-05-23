@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- Header Fragment -->
+    <header class="header" th:fragment="header">
+        <div class="header-content">
+            <div class="logo">
+                <img th:src="@{/images/ocp-logo.png}" alt="Logo OCP">
+                <h1>Plateforme de Suivi des Stagiaires</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a th:href="@{/}"><i class="bi bi-house-door"></i> Accueil</a></li>
+                    <li><a th:href="@{/stagiaire}"><i class="bi bi-person"></i> Stagiaire</a></li>
+                    <li><a th:href="@{/encadrant}"><i class="bi bi-person-badge"></i> Encadrant</a></li>
+                    <li><a th:href="@{/cci}"><i class="bi bi-building"></i> CCI</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Footer Fragment -->
+    <footer class="footer" th:fragment="footer">
+        <div class="footer-content">
+            <p><i class="bi bi-geo-alt"></i> OCP Site Industriel Benguérir, Maroc</p>
+            <p>
+                <i class="bi bi-envelope"></i> contact@ocp-stages.ma | 
+                <i class="bi bi-telephone"></i> +212 5 24 00 00 00
+            </p>
+            <p><em>Projet fictif réalisé à des fins pédagogiques</em></p>
+        </div>
+    </footer>
+</body>
+</html>
+
+

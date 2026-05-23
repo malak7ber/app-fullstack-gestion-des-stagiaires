@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion Encadrants - CCI</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/header-footer :: header}"></div>
+
+    <div class="container my-5">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 class="mb-0">
+                    <i class="bi bi-people text-primary"></i> Gestion des Encadrants
+                </h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Specialite</th>
+                                <th>Service</th>
+                                <th>Stagiaires</th>
+                                <th>Max Stagiaires</th>
+                                <th>Disponibilite</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="e : ${encadrants}">
+                                <td th:text="${e.nom}"></td>
+                                <td th:text="${e.email}"></td>
+                                <td th:text="${e.specialite}"></td>
+                                <td th:text="${e.service}"></td>
+                                <td>
+                                    <strong th:text="${e.nombreStagiaires}">0</strong>
+                                </td>
+                                <td th:text="${e.maxStagiaires}"></td>
+                                <td>
+                                    <span th:if="${e.peutAccepterStagiaire()}" class="badge bg-success">
+                                        Disponible
+                                    </span>
+                                    <span th:if="${!e.peutAccepterStagiaire()}" class="badge bg-danger">
+                                        Complet
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a th:href="@{/cci}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Retour au dashboard
+            </a>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/header-footer :: footer}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

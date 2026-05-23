@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Suivi des Stagiaires OCP</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+    
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, rgba(0, 51, 102, 0.65) 0%, rgba(0, 82, 204, 0.65) 100%),
+                        url('/images/ocp-bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #0052cc;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <img th:src="@{/images/ocp-logo.png}" alt="Logo OCP">
+    <h1>Plateforme de Suivi des Stagiaires</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a th:href="@{/}"><i class="bi bi-house-door"></i> Accueil</a></li>
+                    <li><a th:href="@{/stagiaire}"><i class="bi bi-person"></i> Stagiaire</a></li>
+                    <li><a th:href="@{/encadrant}"><i class="bi bi-person-badge"></i> Encadrant</a></li>
+                    <li><a th:href="@{/cci}"><i class="bi bi-building"></i> CCI</a></li>
+                </ul>
+            </nav>
+        </div>
+</header>
+
+    <!-- Hero Section -->
+    <div class="main-container">
+        <div class="hero-section">
+            <h1 class="display-4 fw-bold mb-3">Bienvenue sur la Plateforme de Suivi des Stagiaires</h1>
+            <p class="lead mb-4">Encadrer, accompagner, faire réussir.</p>
+            
+        </div>
+
+        <!-- Espaces d'accès -->
+        <div class="grid grid-3 mt-4">
+            <!-- Espace Stagiaire -->
+            <div class="card feature-card">
+                <div class="text-center">
+                    <i class="bi bi-person-circle feature-icon"></i>
+                    <h3 class="card-title mb-3">Espace Stagiaire</h3>
+                    <p class="mb-4">Faites votre demande de stage, suivez votre progression et gérez vos documents</p>
+                    <a th:href="@{/stagiaire}" class="btn btn-primary btn-lg btn-block">
+                        <i class="bi bi-arrow-right-circle"></i> Accéder à l'espace
+                    </a>
+                </div>
+            </div>
+
+            <!-- Espace Encadrant -->
+            <div class="card feature-card">
+                <div class="text-center">
+                    <i class="bi bi-person-badge feature-icon"></i>
+                    <h3 class="card-title mb-3">Espace Encadrant</h3>
+                    <p class="mb-4">Suivez vos stagiaires, commentez leurs projets et gérez vos affectations</p>
+                    <a th:href="@{/encadrant}" class="btn btn-primary btn-lg btn-block">
+                        <i class="bi bi-arrow-right-circle"></i> Accéder à l'espace
+                    </a>
+                </div>
+            </div>
+
+            <!-- Espace CCI -->
+            <div class="card feature-card">
+                <div class="text-center">
+                    <i class="bi bi-building feature-icon"></i>
+                    <h3 class="card-title mb-3">Espace CCI</h3>
+                    <p class="mb-4">Validez les demandes, affectez les stagiaires et générez les attestations</p>
+                    <a th:href="@{/cci}" class="btn btn-primary btn-lg btn-block">
+                        <i class="bi bi-arrow-right-circle"></i> Accéder à l'espace
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informations supplémentaires -->
+        <div class="card mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-primary mb-3"><i class="bi bi-info-circle"></i> À propos</h4>
+                    <p>Cette plateforme permet une gestion optimale du processus de stage au sein de l'OCP. 
+                       Chaque acteur dispose d'un espace dédié pour accomplir ses tâches de manière efficace.</p>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-primary mb-3"><i class="bi bi-shield-check"></i> Fonctionnalités</h4>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle text-success"></i> Gestion des demandes de stage</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Affectation automatique des encadrants</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Suivi en temps réel des projets</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Génération d'attestations</li>
+                    </ul>
+                </div>
+            </div>
+    </div>
+</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p><i class="bi bi-geo-alt"></i> OCP Site Industriel Benguérir, Maroc</p>
+            <p>
+                <i class="bi bi-envelope"></i> contact@ocp-stages.ma | 
+                <i class="bi bi-telephone"></i> +212 5 24 00 00 00
+            </p>
+            <p><em>Projet fictif réalisé à des fins pédagogiques</em></p>
+        </div>
+</footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

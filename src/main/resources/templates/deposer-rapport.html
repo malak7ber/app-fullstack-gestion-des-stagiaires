@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Déposer un Rapport - Stagiaire</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header-footer :: header}"></div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="card" style="max-width: 600px; margin: 0 auto;">
+            <div class="card-header text-center">
+                <h2 class="card-title mb-0">
+                    <i class="bi bi-file-earmark-arrow-up text-primary"></i> Déposer votre rapport de stage
+                </h2>
+                <p class="text-muted mt-2 mb-0">Téléchargez votre rapport au format PDF</p>
+            </div>
+            
+            <div class="card-body">
+                <form th:action="@{/stagiaire/deposer-rapport}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="rapport" class="form-label">
+                            <i class="bi bi-file-pdf"></i> Fichier rapport (PDF)
+                        </label>
+                        <input type="file" 
+                               id="rapport" 
+                               name="rapport" 
+                               class="form-control" 
+                               accept=".pdf" 
+                               required />
+                        <small class="form-text text-muted">
+                            Formats acceptés : PDF uniquement. Taille maximum : 10 Mo
+                        </small>
+                    </div>
+
+                    <div class="alert alert-info mt-3">
+                        <i class="bi bi-info-circle"></i>
+                        <strong>Conseil :</strong> Assurez-vous que votre rapport est complet et bien formaté avant de le soumettre.
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-upload"></i> Envoyer le rapport
+                        </button>
+                        <a th:href="@{/stagiaire/dashboard}" class="btn btn-outline">
+                            <i class="bi bi-arrow-left"></i> Retour au dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/header-footer :: footer}"></div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

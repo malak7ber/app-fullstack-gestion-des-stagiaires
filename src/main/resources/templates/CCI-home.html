@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace CCI - OCP</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header-footer :: header}"></div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <div class="hero text-center mb-4">
+            <img th:src="@{/images/ocp-logo.png}" alt="Logo OCP" class="mb-3" style="width: 120px;">
+            <h1 class="display-4 fw-bold mb-3">Espace CCI</h1>
+            <p class="lead">Gérez les demandes, les affectations et les documents</p>
+        </div>
+
+        <!-- Menu Cards -->
+        <div class="grid grid-2">
+            <!-- Valider les demandes -->
+            <div class="card">
+                <div class="text-center">
+                    <i class="bi bi-clipboard-check feature-icon" style="font-size: 3rem; color: #28a745;"></i>
+                    <h3 class="card-title mb-3">Valider les demandes</h3>
+                    <p class="mb-4">Examinez et validez ou rejetez les demandes de stage soumises</p>
+                    <a th:href="@{/cci/demandes}" class="btn btn-success btn-lg btn-block">
+                        <i class="bi bi-check-circle"></i> Gérer les demandes
+                    </a>
+                </div>
+            </div>
+
+            <!-- Affecter un stagiaire -->
+            <div class="card">
+                <div class="text-center">
+                    <i class="bi bi-people feature-icon" style="font-size: 3rem; color: #0052cc;"></i>
+                    <h3 class="card-title mb-3">Affecter un stagiaire</h3>
+                    <p class="mb-4">Assignez un encadrant à un stagiaire pour son stage</p>
+                    <a th:href="@{/cci/affecter}" class="btn btn-primary btn-lg btn-block">
+                        <i class="bi bi-person-plus"></i> Affecter un stagiaire
+                    </a>
+                </div>
+            </div>
+
+            <!-- Générer une attestation -->
+            <div class="card">
+                <div class="text-center">
+                    <i class="bi bi-file-earmark-text feature-icon" style="font-size: 3rem; color: #17a2b8;"></i>
+                    <h3 class="card-title mb-3">Générer une attestation</h3>
+                    <p class="mb-4">Créez et téléchargez les attestations de stage</p>
+                    <a th:href="@{/cci/attestation}" class="btn btn-info btn-lg btn-block" style="background-color: #17a2b8; border: none;">
+                        <i class="bi bi-download"></i> Générer une attestation
+                    </a>
+                </div>
+            </div>
+
+            <!-- Retour à l'accueil -->
+            <div class="card">
+                <div class="text-center">
+                    <i class="bi bi-house-door feature-icon" style="font-size: 3rem; color: #6c757d;"></i>
+                    <h3 class="card-title mb-3">Retour à l'accueil</h3>
+                    <p class="mb-4">Retournez à la page d'accueil principale</p>
+                    <a th:href="@{/}" class="btn btn-outline btn-lg btn-block">
+                        <i class="bi bi-arrow-left"></i> Retour à l'accueil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/header-footer :: footer}"></div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
